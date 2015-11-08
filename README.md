@@ -1,5 +1,5 @@
 # aero-kaze
-Kaze bundle for Aero.
+Kaze bundle for [Aero](https://github.com/aerojs/aero).
 
 Add this to your `config.json`:
 ```json

@@ -1,0 +1,15 @@
+{
+	"name": "aero-kaze",
+	"version": "0.1.0",
+	"description": "Kaze bundle for Aero.",
+	"repository": "aerojs/aero-kaze",
+	"keywords": [
+		"aero",
+		"kaze"
+	],
+	"author": {
+		"name": "Eduard Urbach",
+		"email": "e.urbach@gmail.com",
+		"url": "http://blitzprog.org"
+	}
+}
