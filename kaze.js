@@ -28,6 +28,13 @@ kaze.ajaxifyLinks = function() {
 	});
 };
 
+kaze.emit = function(eventName) {
+	document.dispatchEvent(new Event(eventName, {
+		'bubbles': true,
+		'cancelable': true
+	}));
+};
+
 kaze.fadeContent = function($content, response) {
 	kaze.$loadingAnimation.stop().fadeIn(kaze.fadeSpeed);
 
@@ -36,11 +43,7 @@ kaze.fadeContent = function($content, response) {
 
 		$content.html(response).fadeIn(kaze.fadeSpeed, function() {
 			kaze.ajaxifyLinks();
-
-			// DOM content loaded event
-			var DOMContentLoadedEvent = document.createEvent('Event');
-			DOMContentLoadedEvent.initEvent('DOMContentLoaded', true, true);
-			window.document.dispatchEvent(DOMContentLoadedEvent);
+			kaze.emit('DOMContentLoaded');
 		});
 	});
 };
