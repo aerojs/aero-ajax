@@ -4,7 +4,7 @@ kaze.fadeSpeed = 150;
 kaze.$navigation = $('#navigation');
 kaze.$container = $('#container');
 kaze.$content = $('#content');
-kaze.$loadingAnimation = $('#loading-animation')
+kaze.loadingAnimation = document.getElementById('loading-animation')
 kaze.originalURL = window.location.pathname;
 kaze.currentURL = kaze.originalURL;
 kaze.lastRequest = null;
@@ -36,10 +36,12 @@ kaze.emit = function(eventName) {
 };
 
 kaze.fadeContent = function($content, response) {
-	kaze.$loadingAnimation.stop().fadeIn(kaze.fadeSpeed);
+	kaze.loadingAnimation.classList.remove('fade-out');
+	kaze.loadingAnimation.classList.add('fade-in');
 
 	$content.promise().done(function() {
-		kaze.$loadingAnimation.stop().fadeOut(kaze.fadeSpeed);
+		kaze.loadingAnimation.classList.remove('fade-in');
+		kaze.loadingAnimation.classList.add('fade-out');
 
 		$content.html(response).fadeIn(kaze.fadeSpeed, function() {
 			kaze.ajaxifyLinks();
