@@ -3,7 +3,6 @@ var kaze = {};
 kaze.fadeSpeed = 150;
 kaze.$navigation = $('#navigation');
 kaze.$container = $('#container');
-kaze.$content = $('#content');
 kaze.content = document.getElementById('content');
 kaze.loadingAnimation = document.getElementById('loading-animation');
 kaze.originalURL = window.location.pathname;
