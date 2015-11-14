@@ -4,14 +4,15 @@ kaze.fadeSpeed = 150;
 kaze.$navigation = $('#navigation');
 kaze.$container = $('#container');
 kaze.$content = $('#content');
-kaze.loadingAnimation = document.getElementById('loading-animation')
+kaze.content = document.getElementById('content');
+kaze.loadingAnimation = document.getElementById('loading-animation');
 kaze.originalURL = window.location.pathname;
 kaze.currentURL = kaze.originalURL;
 kaze.lastRequest = null;
 
 kaze.ajaxifyLinks = function() {
 	$('.ajax').each(function() {
-		$(this).removeClass('ajax');
+		this.classList.remove('ajax');
 	}).click(function(e) {
 		var url = this.getAttribute('href');
 
@@ -35,19 +36,14 @@ kaze.emit = function(eventName) {
 	}));
 };
 
-kaze.fadeContent = function($content, response) {
-	kaze.loadingAnimation.classList.remove('fade-out');
-	kaze.loadingAnimation.classList.add('fade-in');
+kaze.fadeIn = function(element) {
+	element.classList.remove('fade-out');
+	element.classList.add('fade-in');
+};
 
-	$content.promise().done(function() {
-		kaze.loadingAnimation.classList.remove('fade-in');
-		kaze.loadingAnimation.classList.add('fade-out');
-
-		$content.html(response).fadeIn(kaze.fadeSpeed, function() {
-			kaze.ajaxifyLinks();
-			kaze.emit('DOMContentLoaded');
-		});
-	});
+kaze.fadeOut = function(element) {
+	element.classList.remove('fade-in');
+	element.classList.add('fade-out');
 };
 
 kaze.scrollToElement = function(element, time) {
@@ -70,11 +66,31 @@ kaze.loadURL = function(url, addToHistory) {
 		history.pushState(url, null, url);
 	}
 
-	kaze.$content.stop().fadeOut(kaze.fadeSpeed);
+	// var onTransitionEnd = function() {
+	// 	console.log('Transition ended!');
+	// };
+	// kaze.content.addEventListener('webkitTransitionEnd', onTransitionEnd, false);
+
+	kaze.fadeIn(kaze.loadingAnimation);
+	kaze.fadeOut(kaze.content);
 
 	kaze.lastRequest = $.get('/_' + url, function(response) {
 		kaze.lastRequest = null;
-		kaze.fadeContent(kaze.$content, response);
+		// kaze.content.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
+
+		if(kaze.fadeSpeed === 0) {
+			kaze.content.innerHTML = response;
+			kaze.ajaxifyLinks();
+			kaze.emit('DOMContentLoaded');
+			return
+		}
+
+		kaze.content.innerHTML = response;
+		kaze.ajaxifyLinks();
+		kaze.emit('DOMContentLoaded');
+
+		kaze.fadeIn(kaze.content);
+		kaze.fadeOut(kaze.loadingAnimation);
 	});
 
 	kaze.markActiveLinks(url);
