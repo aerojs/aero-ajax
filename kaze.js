@@ -1,31 +1,38 @@
 var kaze = {};
 
 kaze.fadeSpeed = 150;
-kaze.$navigation = $('#navigation');
-kaze.$container = $('#container');
 kaze.content = document.getElementById('content');
 kaze.loadingAnimation = document.getElementById('loading-animation');
 kaze.originalURL = window.location.pathname;
 kaze.currentURL = kaze.originalURL;
 kaze.lastRequest = null;
 
+//kaze.$navigation = $('#navigation');
+//kaze.$container = $('#container');
+
 kaze.ajaxifyLinks = function() {
-	$('.ajax').each(function() {
-		this.classList.remove('ajax');
-	}).click(function(e) {
-		var url = this.getAttribute('href');
+	var links = document.body.querySelectorAll('.ajax');
 
-		e.preventDefault();
-		e.stopPropagation();
+	for(var i = 0; i < links.length; i++) {
+		var link = links[i];
 
-		if(url === window.location.pathname)
-			return;
+		link.classList.remove('ajax');
 
-		//if(kaze.$navigation && kaze.$navigation.offset().top < 0)
-		//	kaze.scrollToElement(kaze.$navigation);
+		link.onclick = function(e) {
+			var url = this.getAttribute('href');
 
-		kaze.loadURL(url, true);
-	});
+			e.preventDefault();
+			e.stopPropagation();
+
+			if(url === window.location.pathname)
+				return;
+
+			//if(kaze.$navigation && kaze.$navigation.offset().top < 0)
+			//	kaze.scrollToElement(kaze.$navigation);
+
+			kaze.loadURL(url, true);
+		};
+	}
 };
 
 kaze.emit = function(eventName) {
@@ -45,13 +52,30 @@ kaze.fadeOut = function(element) {
 	element.classList.add('fade-out');
 };
 
-kaze.scrollToElement = function(element, time) {
+kaze.get = function(url, callback) {
+	var request = new XMLHttpRequest();
+	request.open('GET', url, true);
+
+	request.onload = function() {
+		if(request.status >= 200 && request.status < 400) {
+			callback(request.responseText);
+		}
+	};
+
+	request.onerror = function() {
+		console.error('Error requesting ' + url);
+	};
+
+	request.send();
+}
+
+/*kaze.scrollToElement = function(element, time) {
 	time = (time !== undefined) ? time : kaze.fadeSpeed * 2;
 
 	kaze.$container.animate({
 		scrollTop: kaze.$container.scrollTop() + element.offset().top
 	}, time);
-};
+};*/
 
 kaze.loadURL = function(url, addToHistory) {
 	if(kaze.lastRequest) {
@@ -73,7 +97,7 @@ kaze.loadURL = function(url, addToHistory) {
 	kaze.fadeIn(kaze.loadingAnimation);
 	kaze.fadeOut(kaze.content);
 
-	kaze.lastRequest = $.get('/_' + url, function(response) {
+	kaze.lastRequest = kaze.get('/_' + url, function(response) {
 		kaze.lastRequest = null;
 		// kaze.content.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
 
@@ -99,21 +123,24 @@ kaze.markActiveLinks = function(url) {
 	if(url === undefined)
 		url = window.location.pathname;
 
-	$('a').each(function() {
-		var $this = $(this);
-		var href = $this.attr('href');
+	var links = document.body.querySelectorAll('a');
 
-		if(href === url) {
-			$this.addClass('active');
-		} else {
-			$this.removeClass('active');
-		}
-	});
+	for(var i = 0; i < links.length; i++) {
+		var link = links[i];
+		var href = link.getAttribute('href');
+
+		if(href === url)
+			link.classList.add('active');
+		else
+			link.classList.remove('active');
+	}
 };
 
 // Run
-kaze.ajaxifyLinks();
-kaze.markActiveLinks();
+document.addEventListener('DOMContentLoaded', function() {
+	kaze.ajaxifyLinks();
+	kaze.markActiveLinks();
+});
 
 // Load history (used on backward and forward button)
 window.addEventListener('popstate', function(e) {
