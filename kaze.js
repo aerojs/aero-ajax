@@ -67,10 +67,12 @@ kaze.get = function(url, callback) {
 	};
 
 	request.send();
+
+	return request;
 };
 
 kaze.getJSON = function(url, callback) {
-	kaze.get(url, function(raw) {
+	return kaze.get(url, function(raw) {
 		callback(JSON.parse(raw));
 	});
 };
@@ -82,6 +84,13 @@ kaze.getJSON = function(url, callback) {
 		scrollTop: kaze.$container.scrollTop() + element.offset().top
 	}, time);
 };*/
+
+kaze.executeScripts = function() {
+	var aeroScripts = kaze.content.getElementsByTagName('script');
+
+	for(var n = 0; n < aeroScripts.length; n++)
+		eval(aeroScripts[n].innerHTML);
+}
 
 kaze.loadURL = function(url, addToHistory) {
 	if(kaze.lastRequest) {
@@ -107,16 +116,10 @@ kaze.loadURL = function(url, addToHistory) {
 		kaze.lastRequest = null;
 		// kaze.content.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
 
-		if(kaze.fadeSpeed === 0) {
-			kaze.content.innerHTML = response;
-			kaze.ajaxifyLinks();
-			kaze.emit('DOMContentLoaded');
-			return
-		}
+		kaze.onResponse(response);
 
-		kaze.content.innerHTML = response;
-		kaze.ajaxifyLinks();
-		kaze.emit('DOMContentLoaded');
+		if(kaze.fadeSpeed === 0)
+			return;
 
 		kaze.fadeIn(kaze.content);
 		kaze.fadeOut(kaze.loadingAnimation);
@@ -124,6 +127,13 @@ kaze.loadURL = function(url, addToHistory) {
 
 	kaze.markActiveLinks(url);
 };
+
+kaze.onResponse = function(response) {
+	kaze.content.innerHTML = response;
+	kaze.executeScripts();
+	kaze.ajaxifyLinks();
+	kaze.emit('DOMContentLoaded');
+}
 
 kaze.markActiveLinks = function(url) {
 	if(url === undefined)
