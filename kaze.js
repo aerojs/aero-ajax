@@ -67,7 +67,13 @@ kaze.get = function(url, callback) {
 	};
 
 	request.send();
-}
+};
+
+kaze.getJSON = function(url, callback) {
+	kaze.get(url, function(raw) {
+		callback(JSON.parse(raw));
+	});
+};
 
 /*kaze.scrollToElement = function(element, time) {
 	time = (time !== undefined) ? time : kaze.fadeSpeed * 2;
