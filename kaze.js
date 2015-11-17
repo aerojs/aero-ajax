@@ -1,6 +1,5 @@
 var kaze = {};
 
-kaze.fadeSpeed = 150;
 kaze.content = document.getElementById('content');
 kaze.loadingAnimation = document.getElementById('loading-animation');
 kaze.originalURL = window.location.pathname;
@@ -92,10 +91,26 @@ kaze.executeScripts = function() {
 		eval(aeroScripts[n].innerHTML);
 }
 
+kaze.getTransitionEventName = function() {
+    var el = document.createElement('fakeelement');
+    var transitions = {
+		'transition': 'transitionend',
+		'OTransition': 'oTransitionEnd',
+		'MozTransition': 'transitionend',
+		'WebkitTransition': 'webkitTransitionEnd'
+	};
+
+    for(var t in transitions) {
+        if(el.style[t] !== undefined) {
+            return transitions[t];
+        }
+    }
+};
+
 kaze.loadURL = function(url, addToHistory) {
 	if(kaze.lastRequest) {
 		kaze.lastRequest.abort();
-		kaze.lastRequest = null;
+		kaze.lastRequest = undefined;
 	}
 
 	kaze.currentURL = url;
@@ -104,25 +119,35 @@ kaze.loadURL = function(url, addToHistory) {
 		history.pushState(url, null, url);
 	}
 
-	// var onTransitionEnd = function() {
-	// 	console.log('Transition ended!');
-	// };
-	// kaze.content.addEventListener('webkitTransitionEnd', onTransitionEnd, false);
+	kaze.contentTransitionEnded = false;
+
+	var transitionEventName = kaze.getTransitionEventName();
+
+	var onTransitionEnd = function() {
+		kaze.contentTransitionEnded = true;
+		kaze.content.removeEventListener(transitionEventName, onTransitionEnd);
+	};
+
+	kaze.content.addEventListener(transitionEventName, onTransitionEnd);
 
 	kaze.fadeIn(kaze.loadingAnimation);
 	kaze.fadeOut(kaze.content);
 
 	kaze.lastRequest = kaze.get('/_' + url, function(response) {
-		kaze.lastRequest = null;
-		// kaze.content.removeEventListener('webkitTransitionEnd', onTransitionEnd, false);
+		kaze.lastRequest = undefined;
 
-		kaze.onResponse(response);
+		if(kaze.contentTransitionEnded) {
+			kaze.onResponse(response);
+		} else {
+			var replaceContent = function() {
+				kaze.content.removeEventListener(transitionEventName, replaceContent);
+				kaze.onResponse(response);
+			};
 
-		if(kaze.fadeSpeed === 0)
+			kaze.content.addEventListener(transitionEventName, replaceContent);
+
 			return;
-
-		kaze.fadeIn(kaze.content);
-		kaze.fadeOut(kaze.loadingAnimation);
+		}
 	});
 
 	kaze.markActiveLinks(url);
@@ -133,6 +158,8 @@ kaze.onResponse = function(response) {
 	kaze.executeScripts();
 	kaze.ajaxifyLinks();
 	kaze.emit('DOMContentLoaded');
+	kaze.fadeIn(kaze.content);
+	kaze.fadeOut(kaze.loadingAnimation);
 }
 
 kaze.markActiveLinks = function(url) {
