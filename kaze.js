@@ -42,13 +42,13 @@ kaze.emit = function(eventName) {
 };
 
 kaze.fadeIn = function(element) {
-	element.classList.remove('fade-out');
-	element.classList.add('fade-in');
+	element.classList.remove('kaze-fade-out');
+	element.classList.add('kaze-fade-in');
 };
 
 kaze.fadeOut = function(element) {
-	element.classList.remove('fade-in');
-	element.classList.add('fade-out');
+	element.classList.remove('kaze-fade-in');
+	element.classList.add('kaze-fade-out');
 };
 
 kaze.get = function(url, callback) {
