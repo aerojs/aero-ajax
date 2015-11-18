@@ -154,13 +154,8 @@ kaze.loadURL = function(url, addToHistory) {
 };
 
 kaze.onResponse = function(response) {
-	// Use jQuery if available
-	if(jQuery !== undefined) {
-		kaze.content.innerHTML = response;
-		kaze.executeScripts();
-	} else {
-		jQuery(kaze.content).html(response);
-	}
+	kaze.content.innerHTML = response;
+	kaze.executeScripts();
 	kaze.ajaxifyLinks();
 	kaze.emit('DOMContentLoaded');
 	kaze.fadeIn(kaze.content);
