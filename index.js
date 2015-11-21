@@ -1,5 +1,5 @@
 module.exports = {
 	scripts: [
-		'kaze'
+		'lib/kaze'
 	]
 }
