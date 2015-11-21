@@ -5,6 +5,8 @@ kaze.loadingAnimation = document.getElementById('loading-animation');
 kaze.originalURL = window.location.pathname;
 kaze.currentURL = kaze.originalURL;
 kaze.lastRequest = null;
+kaze.fadeOutClass = 'fade-out';
+kaze.fadeInClass = 'fade-in';
 
 //kaze.$navigation = $('#navigation');
 //kaze.$container = $('#container');
@@ -42,13 +44,13 @@ kaze.emit = function(eventName) {
 };
 
 kaze.fadeIn = function(element) {
-	element.classList.remove('kaze-fade-out');
-	element.classList.add('kaze-fade-in');
+	element.classList.remove(kaze.fadeOutClass);
+	element.classList.add(kaze.fadeInClass);
 };
 
 kaze.fadeOut = function(element) {
-	element.classList.remove('kaze-fade-in');
-	element.classList.add('kaze-fade-out');
+	element.classList.remove(kaze.fadeInClass);
+	element.classList.add(kaze.fadeOutClass);
 };
 
 kaze.get = function(url, callback) {
@@ -92,19 +94,19 @@ kaze.executeScripts = function() {
 }
 
 kaze.getTransitionEventName = function() {
-    var el = document.createElement('fakeelement');
-    var transitions = {
+	var el = document.createElement('fakeelement');
+	var transitions = {
 		'transition': 'transitionend',
 		'OTransition': 'oTransitionEnd',
 		'MozTransition': 'transitionend',
 		'WebkitTransition': 'webkitTransitionEnd'
 	};
 
-    for(var t in transitions) {
-        if(el.style[t] !== undefined) {
-            return transitions[t];
-        }
-    }
+	for(var t in transitions) {
+		if(el.style[t] !== undefined) {
+			return transitions[t];
+		}
+	}
 };
 
 kaze.loadURL = function(url, addToHistory) {
