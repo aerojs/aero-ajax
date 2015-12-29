@@ -12,6 +12,6 @@ module.exports = {
 		'lib/functions/loadURL',
 		'lib/functions/markActiveLinks',
 		'lib/functions/onResponse',
-		'lib/functions/post'
+		'lib/functions/postJSON'
 	]
 }
