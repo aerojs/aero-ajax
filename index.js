@@ -11,6 +11,7 @@ module.exports = {
 		'lib/functions/getTransitionEventName',
 		'lib/functions/loadURL',
 		'lib/functions/markActiveLinks',
-		'lib/functions/onResponse'
+		'lib/functions/onResponse',
+		'lib/functions/post'
 	]
 }
