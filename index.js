@@ -2,6 +2,7 @@ module.exports = {
 	scripts: [
 		'lib/kaze',
 		'lib/functions/ajaxifyLinks',
+		'lib/functions/clear',
 		'lib/functions/emit',
 		'lib/functions/executeScripts',
 		'lib/functions/fadeIn',
