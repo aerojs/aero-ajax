@@ -12,7 +12,7 @@ module.exports = {
 		'lib/functions/getTransitionEventName',
 		'lib/functions/loadURL',
 		'lib/functions/markActiveLinks',
-		'lib/functions/onResponse',
-		'lib/functions/postJSON'
+		'lib/functions/postJSON',
+		'lib/functions/setContent'
 	]
 }
