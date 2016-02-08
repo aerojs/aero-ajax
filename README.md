@@ -12,7 +12,6 @@ Add `aero-ajax` to `dependencies` in your `package.json`:
 
 ## Preparation
 
-### Summary
 You need to define your `main` element with the ID `content` in your layout template:
 
 ```jade
