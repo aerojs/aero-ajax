@@ -1,6 +1,6 @@
 module.exports = {
 	scripts: [
-		'lib/kaze',
+		'lib/ajax',
 		'lib/functions/ajaxifyLinks',
 		'lib/functions/clear',
 		'lib/functions/emit',

@@ -1,15 +1,15 @@
 {
-	"name": "aero-kaze",
-	"version": "0.4.5",
-	"description": "Kaze bundle for Aero.",
-	"repository": "aerojs/aero-kaze",
+	"name": "aero-ajax",
+	"version": "0.5.0",
+	"description": "Ajaxify your Aero site. Add the CSS class 'ajax' to any link on the site.",
+	"repository": "aerojs/aero-ajax",
 	"keywords": [
 		"aero",
-		"kaze"
+		"ajax"
 	],
 	"author": {
 		"name": "Eduard Urbach",
 		"email": "e.urbach@gmail.com",
-		"url": "http://blitzprog.org"
+		"url": "https://blitzprog.org"
 	}
 }
