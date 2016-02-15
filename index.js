@@ -12,7 +12,8 @@ module.exports = {
 		'lib/functions/getTransitionEventName',
 		'lib/functions/loadURL',
 		'lib/functions/markActiveLinks',
-		'lib/functions/postJSON',
-		'lib/functions/setContent'
+		'lib/functions/post',
+		'lib/functions/setContent',
+		'lib/functions/dollar'
 	]
 }
