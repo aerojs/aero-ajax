@@ -14,6 +14,6 @@ module.exports = {
 		'lib/functions/markActiveLinks',
 		'lib/functions/post',
 		'lib/functions/setContent',
-		'lib/functions/dollar'
+		'lib/functions/run'
 	]
 }
