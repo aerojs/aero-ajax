@@ -13,6 +13,7 @@ module.exports = {
 		'lib/functions/loadURL',
 		'lib/functions/markActiveLinks',
 		'lib/functions/post',
+		'lib/functions/scrollToTop',
 		'lib/functions/setContent',
 		'lib/functions/run'
 	]
