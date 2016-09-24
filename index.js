@@ -2,7 +2,6 @@ module.exports = {
 	scripts: [
 		'lib/ajax',
 		'lib/functions/ajaxifyLinks',
-		'lib/functions/clear',
 		'lib/functions/emit',
 		'lib/functions/executeScripts',
 		'lib/functions/fadeIn',
