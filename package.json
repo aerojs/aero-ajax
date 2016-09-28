@@ -1,6 +1,6 @@
 {
 	"name": "aero-ajax",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"description": "Ajaxify your Aero site. Add the CSS class 'ajax' to any link on the site.",
 	"repository": "aerojs/aero-ajax",
 	"keywords": [
