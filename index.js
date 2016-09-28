@@ -9,7 +9,7 @@ module.exports = {
 		'lib/functions/get',
 		'lib/functions/getJSON',
 		'lib/functions/getTransitionEventName',
-		'lib/functions/loadURL',
+		'lib/functions/load',
 		'lib/functions/markActiveLinks',
 		'lib/functions/post',
 		'lib/functions/scrollToTop',
